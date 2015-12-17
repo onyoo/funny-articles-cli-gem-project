@@ -22,12 +22,16 @@ class FunnyArticle::CLI
   #   index = gets.strip
   # end 
 
+  def call
+    list
+  end
+
   
   def list 
     puts ""
     # binding.pry
-    puts "************* Current Articles *************" 
-     FunnyArticle::Topics.cat.each {|i| binding.pry puts i}
+    puts "************* Current topics *************" 
+    FunnyArticle::Topics.all.each {|i| puts i}
 
     puts ""
   end 

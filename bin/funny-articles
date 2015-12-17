@@ -2,4 +2,6 @@
 
 require_relative '../config/environment'
 
-FunnyArticle::Topics.new.scrape_details
+FunnyArticle::CLI.new.call
+
+# FunnyArticle::CLI.new.scrape_details
