@@ -5,23 +5,6 @@ end
 
 class FunnyArticle::CLI
 
-  # def initialize
-  #   @categories = 
-  # end   
-
-  # def welcome_message
-  #   puts "Which Topic would you like to read more on? Choose a number please: "
-  #   puts ""
-  #   puts "Enter 'list' to see the list again"
-  #   puts "Enter 'exit' to quit."
-  #   puts ""
-    
-  # end 
-
-  # def user_input
-  #   index = gets.strip
-  # end 
-
   def call
     list
   end
@@ -30,15 +13,22 @@ class FunnyArticle::CLI
   def list 
     puts ""
     # binding.pry
-    puts "************* Current topics *************" 
-    FunnyArticle::Topics.all.each {|i| puts i}
+    puts "************* Current topics *************"
+    # binding.pry  
+    FunnyArticle::Topics.print_all
+    # puts "#{FunnyArticles::Topics.new.scrape_details}"
+     # puts i.headlines
+     # puts i.descriptions
+    end
 
     puts ""
   end 
 
+  public
   def begin
     list
     index = nil 
+    # binding.pry
     while index != 'exit'
       puts "Which Topic would you like to read more on? Choose a number please: "
       puts ""
@@ -47,18 +37,16 @@ class FunnyArticle::CLI
       puts ""
       index = gets.strip
       # binding.pry 
+      FunnyArticle::Topics.all[index - 1]
       if index == 'list'
         list
-      elsif condition
-          index.to_i > 0 
+      elsif index.to_i > 0
+           
         # binding.pry
-      FunnyArticle::Article.find_by_headline_number(index)
+      FunnyArticle::Topics.find_by_headline_number(index)
 
       end  
     end
   end 
 
-
-
-
-end 
+ 

@@ -23,7 +23,7 @@ class FunnyArticle::Article
   end 
 
   def find_by_headline_number(num)
-    puts @@headlines[num.to_i - 1]
+    puts FunnyArticle::Topics.headlines[num.to_i - 1]
     @@headlines[num.to_i - 1]
   end 
 
