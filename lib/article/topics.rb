@@ -1,7 +1,7 @@
 require 'pry'
 
 class FunnyArticle::Topics 
-  attr_accessor :descriptions, :category, :headlines, :variable
+  attr_accessor :descriptions, :category, :headlines
   
   @@list = [
     {"politics" => 'http://www.theonion.com/section/politics/'},
@@ -27,11 +27,13 @@ class FunnyArticle::Topics
 
   def self.all_hash
     self.scrape_details
-    binding.pry
     @@collection  
   end 
 
   def self.intake(puts_info)
+    if puts_info == 'exit'
+      end_now
+    end
     @@correct_hash = @@list[puts_info.to_i - 1]
   end
 
@@ -68,6 +70,9 @@ class FunnyArticle::Topics
   end
 
   def self.intake_article(puts_info)
+    if puts_info == 'exit'
+      end_now
+    else 
     doc = Nokogiri::HTML(open(@@correct_hash.values[0]))
     article_links = []
     doc.css('.large-thing h2 a').map do |link| 
@@ -75,14 +80,16 @@ class FunnyArticle::Topics
     end 
     url = article_links[puts_info.to_i - 1]
     new_doc = Nokogiri::HTML(open(url))
-    # binding.pry 
-
-    puts @@list[puts_info.to_i - 1].keys[0]
     
     new_doc.css('.content-text p').text
-    
+    end 
   end
 end   
+
+  def end_now
+    puts "GoodBye!!!" 
+    exit
+  end 
 
 
 

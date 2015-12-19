@@ -9,7 +9,6 @@ class FunnyArticle::CLI
     list
   end
 
-  
   def list 
     puts ""
     puts "************* Current topics *************" 
@@ -24,7 +23,6 @@ class FunnyArticle::CLI
     while index != 'exit' || Integer
       puts "Which Topic would you like to read more on? Choose a number please: "
       puts ""
-      puts "Enter 'list' to see the list again"
       puts "Enter 'exit' to quit."
       puts ""
       
@@ -35,12 +33,14 @@ class FunnyArticle::CLI
         puts "Description: #{heck_yea[1]}"
         puts "---------------------------"
       end
+      puts ""
       puts "Which article would you like to read? Choose a number please: "
       puts ""
-      puts "Enter 'list' to see the list again"
       puts "Enter 'exit' to quit."
       puts ""
       puts "#{FunnyArticle::Topics.intake_article(gets.strip)}"
+      puts "**************************"
+      puts ""
       restart
       exit
     end
@@ -51,7 +51,7 @@ class FunnyArticle::CLI
     if gets.strip == "y"
       begin_now
     else
-      puts "goodbye!!!!"
+      puts "GoodBye!!!!"
     end 
   end
 end

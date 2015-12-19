@@ -3,5 +3,3 @@
 require_relative '../config/environment'
 
 FunnyArticle::CLI.new.begin_now
-
-# FunnyArticle::CLI.new.scrape_details
