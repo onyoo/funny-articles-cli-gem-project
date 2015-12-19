@@ -5,52 +5,12 @@ class FunnyArticle::Topics
   
   @@list = [
     {"politics" => 'http://www.theonion.com/section/politics/'},
-    {"sports" => nil}, 
-    {"local"=> nil}, 
-    {"business" => nil}, 
-    {"entertainment" => nil}, 
-    {"science technology" => nil}, 
-    {"after birth" => nil}]
-
-  @@all_hash = [
-    :politics => {
-      url: 'http://www.theonion.com/section/politics/',
-      :article => {} #insert headline/description hash
-      },
-    :sports => {
-      :url => 'http://www.theonion.com/section/sports/',
-      :article =>{} #insert headline/description hash
-      },
-    :local => {
-      :url => 'http://www.theonion.com/section/local/',
-      :article => {} #insert headline/description hash
-      }, 
-    :business => {
-      :url => 'http://www.theonion.com/section/business',
-      :article => {} #insert headline/description hash
-      }, 
-    :entertainment => {
-      :url => 'http://www.theonion.com/section/entertainment/',
-      :article => {} #insert headline/description hash
-      }, 
-    :science_technology => {
-      :url => 'http://www.theonion.com/section/science-technology/',
-      :article => {} #insert headline/description hash
-      }, 
-    :after_birth => {
-      :url => 'http://www.theonion.com/section/after-birth',
-      :article => {} #insert headline/description hash
-      }]
-
-
-   CATEGORIES = [
-      'http://www.theonion.com/section/politics/',
-      'http://www.theonion.com/section/sports/',
-      'http://www.theonion.com/section/local/',
-      'http://www.theonion.com/section/business',
-      'http://www.theonion.com/section/entertainment/',
-      'http://www.theonion.com/section/science-technology/',
-      'http://www.theonion.com/section/after-birth']
+    {"sports" => 'http://www.theonion.com/section/sports/'}, 
+    {"local"=> 'http://www.theonion.com/section/local/'}, 
+    {"business" => 'http://www.theonion.com/section/business'}, 
+    {"entertainment" => 'http://www.theonion.com/section/entertainment/'}, 
+    {"science technology" => 'http://www.theonion.com/section/science-technology/'}, 
+    {"after birth" => 'http://www.theonion.com/section/after-birth'}]
 
 
   def initialize(description, headline)
@@ -59,21 +19,16 @@ class FunnyArticle::Topics
     @headlines = []
   end 
 
-  #  def self.find_by_headline_number(num)
-  #   puts @headlines[num.to_i - 1]
-  #   binding.pry
-  #   @@headlines[num.to_i - 1]
-  # end 
-
   def self.print_all_topics
-    @@all_hash.each.with_index do |topic,index|
-      puts "#{index+1}: #{topic[0]}"
+    @@list.each.with_index do |topic,index|
+      puts "#{index+1}: #{topic.keys[0]}"
     end
   end
 
   def self.all_hash
     self.scrape_details
-    @@collection
+    binding.pry
+    @@collection  
   end 
 
   def self.intake(puts_info)
@@ -84,6 +39,7 @@ class FunnyArticle::Topics
     doc = Nokogiri::HTML(open(@@correct_hash.values[0]))
     scrape = doc.css('.large-thing')
     scrape.css('h2').each do |h|
+     
       yield h.text.strip  
     end
   end
@@ -109,6 +65,22 @@ class FunnyArticle::Topics
       @@collection[headers[counter]] = descriptions[counter]
       counter +=1
     end
+  end
+
+  def self.intake_article(puts_info)
+    doc = Nokogiri::HTML(open(@@correct_hash.values[0]))
+    article_links = []
+    doc.css('.large-thing h2 a').map do |link| 
+      article_links << "http://www.theonion.com" + "#{link['href']}"
+    end 
+    url = article_links[puts_info.to_i - 1]
+    new_doc = Nokogiri::HTML(open(url))
+    # binding.pry 
+
+    puts @@list[puts_info.to_i - 1].keys[0]
+    
+    new_doc.css('.content-text p').text
+    
   end
 end   
 

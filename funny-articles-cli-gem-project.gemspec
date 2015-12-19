@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'article/version'
 
 Gem::Specification.new do |spec|
-  spec.authors       = ["Aaron Figueroa"]
+  spec.authors       = ["Aaron Figueroa", "Roberto Mesado"]
   spec.email         = ["figueroa.aaron@gmail.com"]
   spec.description   = %q{Newest funny articles from the Onion}
   spec.summary       = %q{Newest funny articles from the Onion}
