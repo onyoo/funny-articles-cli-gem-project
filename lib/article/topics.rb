@@ -1,9 +1,18 @@
 require 'pry'
 
 class FunnyArticle::Topics 
-  attr_accessor :descriptions, :category, :headlines
+  attr_accessor :descriptions, :category, :headlines, :variable
   
-  @@all_hash = {
+  @@list = [
+    {"politics" => 'http://www.theonion.com/section/politics/'},
+    {"sports" => nil}, 
+    {"local"=> nil}, 
+    {"business" => nil}, 
+    {"entertainment" => nil}, 
+    {"science technology" => nil}, 
+    {"after birth" => nil}]
+
+  @@all_hash = [
     :politics => {
       url: 'http://www.theonion.com/section/politics/',
       :article => {} #insert headline/description hash
@@ -31,7 +40,7 @@ class FunnyArticle::Topics
     :after_birth => {
       :url => 'http://www.theonion.com/section/after-birth',
       :article => {} #insert headline/description hash
-      }}
+      }]
 
 
    CATEGORIES = [
@@ -44,56 +53,64 @@ class FunnyArticle::Topics
       'http://www.theonion.com/section/after-birth']
 
 
-  def initialize#(category, descriptions, headlines)
-    @category = []
+  def initialize(description, headline)
+    hash[headline]= description
     @descriptions = []
-    @headlines = [] 
+    @headlines = []
   end 
 
-  # def start
-    # @@all.each do |instance|
-    #   instance.each do |category|
-    #   instance.scrape_details 
+  #  def self.find_by_headline_number(num)
+  #   puts @headlines[num.to_i - 1]
+  #   binding.pry
+  #   @@headlines[num.to_i - 1]
+  # end 
 
-
-  #   all.each.with_index do |cat, i|
-  #    puts "#{i+1}. #{cat.category}"
-  # end
-
-   def self.find_by_headline_number(num)
-    puts @headlines[num.to_i - 1]
-    binding.pry
-    @@headlines[num.to_i - 1]
-  end 
-
-  def self.print_all
-    self.scrape_details
+  def self.print_all_topics
     @@all_hash.each.with_index do |topic,index|
-      puts "#{index+1}: #{topic}"
+      puts "#{index+1}: #{topic[0]}"
     end
   end
 
-  # def self.all
-    
-  # end 
-
-  def self.scrape_details 
-    @@all_hash.each do |topic|
-      doc = Nokogiri::HTML(open(topic[1][:url]))
-
-      scrape = doc.css('.large-thing')
-      # binding.pry
-
-
-      scrape.css('h2').collect do |h|
-        # binding.pry
-        scrape.css('.desc').collect  do |d|
-          binding.pry
-          topic[1][:article][h.text.strip] = d.text.strip
-        end
-      end
-    end 
+  def self.all_hash
+    self.scrape_details
+    @@collection
   end 
+
+  def self.intake(puts_info)
+    @@correct_hash = @@list[puts_info.to_i - 1]
+  end
+
+  def self.yield_helper_2
+    doc = Nokogiri::HTML(open(@@correct_hash.values[0]))
+    scrape = doc.css('.large-thing')
+    scrape.css('h2').each do |h|
+      yield h.text.strip  
+    end
+  end
+
+
+  def self.yield_helper_3
+    doc = Nokogiri::HTML(open(@@correct_hash.values[0]))
+    scrape = doc.css('.large-thing')
+    scrape.css('.desc').each  do |d|
+      yield d.text.strip  
+    end
+  end
+
+  def self.scrape_details
+    headers =[]
+    descriptions=[]
+    @@collection = {}
+    yield_helper_2{|h| headers << h}
+    yield_helper_3{|d| descriptions << d}
+
+    counter = 0
+    while counter < headers.count
+      @@collection[headers[counter]] = descriptions[counter]
+      counter +=1
+    end
+  end
 end   
+
 
 
