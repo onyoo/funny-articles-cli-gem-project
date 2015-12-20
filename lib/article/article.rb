@@ -1,5 +1,4 @@
 
-
 class FunnyArticle::Article
 
   def initialize(article_hash)
