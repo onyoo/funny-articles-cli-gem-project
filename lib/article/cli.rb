@@ -27,10 +27,10 @@ class FunnyArticle::CLI
       puts ""
       
       FunnyArticle::Topics.intake(gets.strip)
-      FunnyArticle::Article.filter.each.with_index do |heck_yea, i|
-        puts "#{i+1}: #{heck_yea[0]}"
+      FunnyArticle::Article.filter.each.with_index do |title_descript, i|
+        puts "#{i+1}: #{title_descript[0]}"
         puts ""
-        puts "Description: #{heck_yea[1]}"
+        puts "Description: #{title_descript[1]}"
         puts "---------------------------"
       end
       puts ""
@@ -38,7 +38,7 @@ class FunnyArticle::CLI
       puts ""
       puts "Enter 'exit' to quit."
       puts ""
-      puts "#{FunnyArticle::Article.intake_article(gets.strip)}"
+      puts "#{FunnyArticle::Article.return_article(gets.strip)}"
       puts "**************************"
       puts ""
       restart
