@@ -35,10 +35,8 @@ class FunnyArticle::Article
     yield_helper_2{|h| headers << h}
     yield_helper_3{|d| descriptions << d}
 
-    counter = 0
-    while counter < headers.count
-      @collection[headers[counter]] = descriptions[counter]
-      counter +=1
+    headers.each_with_index do |h,i|
+      @collection[h] = descriptions[i]
     end
   end
 
